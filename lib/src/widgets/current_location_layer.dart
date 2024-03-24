@@ -30,7 +30,7 @@ class CurrentLocationLayer extends StatefulWidget {
 
   /// A stream that provide heading data for this marker. Defaults to
   /// [LocationMarkerDataStreamFactory.fromCompassHeadingStream].
-  final Stream<LocationMarkerHeading?>? headingStream;
+  // final Stream<LocationMarkerHeading?>? headingStream;
 
   /// A screen point to align the marker when an 'align position event' is
   /// emitted. An 'align position event' is emitted under the following
@@ -102,7 +102,6 @@ class CurrentLocationLayer extends StatefulWidget {
     super.key,
     this.style = const LocationMarkerStyle(),
     this.positionStream,
-    this.headingStream,
     FocalPoint? focalPoint,
     Stream<double?>? alignPositionStream,
     AlignOnUpdate? alignPositionOnUpdate,
@@ -165,7 +164,7 @@ class CurrentLocationLayer extends StatefulWidget {
     properties
       ..add(DiagnosticsProperty('style', style))
       ..add(DiagnosticsProperty('positionStream', positionStream))
-      ..add(DiagnosticsProperty('headingStream', headingStream))
+      // ..add(DiagnosticsProperty('headingStream', headingStream))
       ..add(DiagnosticsProperty('focalPoint', focalPoint))
       ..add(DiagnosticsProperty('alignPositionStream', alignPositionStream))
       ..add(DiagnosticsProperty('alignDirectionStream', alignDirectionStream))
@@ -249,10 +248,10 @@ class _CurrentLocationLayerState extends State<CurrentLocationLayer>
       _subscriptPositionStream();
     }
     if (_status == _Status.ready) {
-      if (widget.headingStream != oldWidget.headingStream) {
-        _headingStreamSubscription?.cancel();
-        _subscriptHeadingStream();
-      }
+      // if (widget.headingStream != oldWidget.headingStream) {
+      //   _headingStreamSubscription?.cancel();
+      //   // _subscriptHeadingStream();
+      // }
       if (widget.alignPositionStream != oldWidget.alignPositionStream) {
         _alignPositionStreamSubscription?.cancel();
         _subscriptAlignPositionStream();
@@ -391,7 +390,7 @@ class _CurrentLocationLayerState extends State<CurrentLocationLayer>
           }
         } else {
           if (_status != _Status.ready) {
-            _subscriptHeadingStream();
+            // _subscriptHeadingStream();
             _subscriptAlignPositionStream();
             _subscriptAlignDirectionStream();
             setState(() {
@@ -434,47 +433,47 @@ class _CurrentLocationLayerState extends State<CurrentLocationLayer>
     );
   }
 
-  void _subscriptHeadingStream() {
-    final headingStream = widget.headingStream ??
-        const LocationMarkerDataStreamFactory().fromCompassHeadingStream();
-    _headingStreamSubscription = headingStream.listen(
-      (heading) {
-        if (!mounted) {
-          return;
-        }
-        if (heading == null) {
-          if (_currentHeading != null) {
-            setState(() => _currentHeading = null);
-          }
-        } else {
-          if (_status == _Status.ready) {
-            _rotateMarker(heading);
-
-            bool alignDirection;
-            switch (widget.alignDirectionOnUpdate) {
-              case AlignOnUpdate.always:
-                alignDirection = true;
-              case AlignOnUpdate.once:
-                alignDirection = _isFirstHeadingUpdate;
-                _isFirstHeadingUpdate = false;
-              case AlignOnUpdate.never:
-                alignDirection = false;
-            }
-            if (alignDirection) {
-              _rotateMap(-heading.heading % (2 * pi));
-            }
-          } else {
-            _currentHeading = heading;
-          }
-        }
-      },
-      onError: (_) {
-        if (_currentHeading != null) {
-          setState(() => _currentHeading = null);
-        }
-      },
-    );
-  }
+  // void _subscriptHeadingStream() {
+  //   final headingStream = widget.headingStream ??
+  //       const LocationMarkerDataStreamFactory().fromCompassHeadingStream();
+  //   _headingStreamSubscription = headingStream.listen(
+  //     (heading) {
+  //       if (!mounted) {
+  //         return;
+  //       }
+  //       if (heading == null) {
+  //         if (_currentHeading != null) {
+  //           setState(() => _currentHeading = null);
+  //         }
+  //       } else {
+  //         if (_status == _Status.ready) {
+  //           _rotateMarker(heading);
+  //
+  //           bool alignDirection;
+  //           switch (widget.alignDirectionOnUpdate) {
+  //             case AlignOnUpdate.always:
+  //               alignDirection = true;
+  //             case AlignOnUpdate.once:
+  //               alignDirection = _isFirstHeadingUpdate;
+  //               _isFirstHeadingUpdate = false;
+  //             case AlignOnUpdate.never:
+  //               alignDirection = false;
+  //           }
+  //           if (alignDirection) {
+  //             _rotateMap(-heading.heading % (2 * pi));
+  //           }
+  //         } else {
+  //           _currentHeading = heading;
+  //         }
+  //       }
+  //     },
+  //     onError: (_) {
+  //       if (_currentHeading != null) {
+  //         setState(() => _currentHeading = null);
+  //       }
+  //     },
+  //   );
+  // }
 
   void _subscriptAlignPositionStream() {
     if (_alignPositionStreamSubscription != null) {
@@ -717,12 +716,12 @@ class _CurrentLocationLayerState extends State<CurrentLocationLayer>
           _positionStreamSubscription,
         ),
       )
-      ..add(
-        DiagnosticsProperty(
-          '_headingStreamSubscription',
-          _headingStreamSubscription,
-        ),
-      )
+      // ..add(
+      //   DiagnosticsProperty(
+      //     '_headingStreamSubscription',
+      //     _headingStreamSubscription,
+      //   ),
+      // )
       ..add(
         DiagnosticsProperty(
           '_alignPositionStreamSubscription',

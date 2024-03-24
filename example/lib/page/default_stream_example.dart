@@ -18,7 +18,7 @@ class DefaultStreamExample extends StatefulWidget {
 
 class _DefaultStreamExampleState extends State<DefaultStreamExample> {
   late final Stream<LocationMarkerPosition?> _positionStream;
-  late final Stream<LocationMarkerHeading?> _headingStream;
+  // late final Stream<LocationMarkerHeading?> _headingStream;
 
 /*
   late final Stream<Position?> _geolocatorStream;
@@ -31,7 +31,7 @@ class _DefaultStreamExampleState extends State<DefaultStreamExample> {
     const factory = LocationMarkerDataStreamFactory();
     _positionStream =
         factory.fromGeolocatorPositionStream().asBroadcastStream();
-    _headingStream = factory.fromCompassHeadingStream().asBroadcastStream();
+    // _headingStream = factory.fromCompassHeadingStream().asBroadcastStream();
 
     // Get streams with default settings.
 /*
@@ -77,7 +77,7 @@ class _DefaultStreamExampleState extends State<DefaultStreamExample> {
                 ),
                 CurrentLocationLayer(
                   positionStream: _positionStream,
-                  headingStream: _headingStream,
+                  // headingStream: _headingStream,
 
                   // Use helper function in factory to cast the streams.
 /*
@@ -105,15 +105,15 @@ class _DefaultStreamExampleState extends State<DefaultStreamExample> {
                     ),
                   ),
                 ),
-                PulseAnimationBox(
-                  stream: _headingStream,
-                  child: const Text(
-                    'H',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                // PulseAnimationBox(
+                //   stream: _headingStream,
+                //   child: const Text(
+                //     'H',
+                //     style: TextStyle(
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
